@@ -79,3 +79,34 @@ class ImageCategoryTestClass(TestCase):
         category_list = ImageCategory.objects.all()
         self.new_image_category.delete_category()
         self.assertTrue(len(category_list) < 1)
+
+
+class ImageLocationTestClass(TestCase):
+    """
+    Test case class that runs test cases for the ImageCategory class
+    """
+
+    # set up method
+    def setUp(self) -> None:
+        self.new_image_location = ImageLocation(location_name='photos')
+
+    # tear down method
+    def tearDown(self) -> None:
+        ImageLocation.objects.all().delete()
+
+    # testing instance
+    def test_instance(self):
+        self.assertTrue(self.new_image_location, ImageLocation)
+
+    # testing saving image category
+    def test_save_image_category(self):
+        self.new_image_location.save_location()
+        location_list = ImageLocation.objects.all()
+        self.assertTrue(len(location_list) > 0)
+
+    # testing deleting a category
+    def test_delete_category(self):
+        self.new_image_location.save_location()
+        location_list = ImageLocation.objects.all()
+        self.new_image_location.delete_location()
+        self.assertTrue(len(location_list) < 1)
