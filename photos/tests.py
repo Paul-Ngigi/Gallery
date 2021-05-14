@@ -83,7 +83,7 @@ class ImageCategoryTestClass(TestCase):
 
 class ImageLocationTestClass(TestCase):
     """
-    Test case class that runs test cases for the ImageCategory class
+    Test case class that runs test cases for the ImageLocation class
     """
 
     # set up method
@@ -98,15 +98,75 @@ class ImageLocationTestClass(TestCase):
     def test_instance(self):
         self.assertTrue(self.new_image_location, ImageLocation)
 
-    # testing saving image category
-    def test_save_image_category(self):
+    # testing saving image location
+    def test_save_image_location(self):
         self.new_image_location.save_location()
         location_list = ImageLocation.objects.all()
         self.assertTrue(len(location_list) > 0)
 
-    # testing deleting a category
-    def test_delete_category(self):
+    # testing deleting a location
+    def test_delete_location(self):
         self.new_image_location.save_location()
         location_list = ImageLocation.objects.all()
         self.new_image_location.delete_location()
         self.assertTrue(len(location_list) < 1)
+
+
+class ImageTestClass(TestCase):
+    """
+    Test case class that tests Image objects
+    """
+
+    # set up method
+    def setUp(self) -> None:
+        # creating a new user and saving
+        self.new_user = User(first_name='Paul', last_name='Ngigi', email='paul@ngigi.com', phone_number='0711111111')
+        self.new_user.save_user()
+
+        # creating a new image category and saving
+        self.new_image_category = ImageCategory(name='Travel')
+        self.new_image_category.save()
+
+        # creating aa new image location and saving
+        self.new_image_location = ImageLocation(location_name='photos')
+        self.new_image_location.save()
+
+        # creating a new image
+        self.new_image = Image(image='image.png', image_name='mountain', image_description='This is a mountain')
+        self.new_image.save()
+
+    # tear down method
+    def tearDown(self) -> None:
+        User.objects.all().delete()
+        ImageCategory.objects.all().delete()
+        ImageLocation.objects.all().delete()
+        Image.objects.all().delete()
+
+    # testing saving an image
+    def test_save_image(self):
+        self.new_image.save_image()
+        images = Image.objects.all()
+        self.assertTrue(len(images) > 0)
+
+    # testing saving multiple images
+    def test_save_multiple_images(self):
+        self.new_image.save_image()
+        other_image = Image(image='lion.png', image_name='lion', image_description='This is a lion')
+        other_image.save_image()
+        images = Image.objects.all()
+        self.assertTrue(len(images) > 1)
+
+    # testing deleting an image
+    def test_delete_image(self):
+        self.new_image.save_image()
+        images = Image.objects.all()
+        self.new_image.delete_image()
+        self.assertTrue(len(images) < 1)
+
+    # testing updating the image
+    def test_update_image(self):
+        self.new_image.save_image()
+        update = Image(image='cheetah.jpg', image_name='cheetah', image_description='This is a cheetah')
+        image_update = Image.update_image(update)
+        self.assertEqual(image_update, Image.update_image())
+

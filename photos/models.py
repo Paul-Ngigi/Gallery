@@ -48,8 +48,33 @@ class Image(models.Model):
     image = models.ImageField()
     image_name = models.CharField(max_length=10)
     image_description = models.TextField()
-    image_location = models.ForeignKey(ImageLocation, on_delete=models.CASCADE)
-    image_category = models.ForeignKey(ImageCategory, on_delete=models.CASCADE)
+    image_location = models.ForeignKey(ImageLocation, on_delete=models.CASCADE, null=True)
+    image_category = models.ForeignKey(ImageCategory, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return {self.image_name}
+
+    def save_image(self):
+        self.save()
+
+    def delete_image(self):
+        self.delete()
+
+    @classmethod
+    def update_image(cls, id, image):
+        image_update = cls.objects.filter(id=id).update(image=image)
+
+    @classmethod
+    def get_image_by_id(cls, id):
+        image = Image.objects.filter(id=id)
+        return image
+
+    @classmethod
+    def search_image(cls, category):
+        image = Image.objects.filter(category=category)
+        return image
+
+    @classmethod
+    def filter_by_location(cls, location):
+        image = Image.objects.filter(location=location)
+        return image
