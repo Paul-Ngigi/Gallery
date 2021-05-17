@@ -15,6 +15,10 @@ class ImageCategory(models.Model):
     def delete_category(self):
         self.delete()
 
+    @classmethod
+    def update_category(cls, id, name):
+        cls.objects.filter(id=id).update(name=name)
+
 
 class ImageLocation(models.Model):
     location_name = models.CharField(max_length=30)
@@ -56,11 +60,6 @@ class Image(models.Model):
         return image
 
     @classmethod
-    def search_image(cls, search_term):
-        image = cls.objects.filter(image_category=search_term)
-        return image
-
-    @classmethod
-    def filter_by_location(cls, location):
-        image = Image.objects.filter(location=location)
+    def search_image(cls, category):
+        image = cls.objects.filter(image_category=category)
         return image
