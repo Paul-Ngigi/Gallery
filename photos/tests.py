@@ -94,7 +94,6 @@ class ImageTestClass(TestCase):
 
     # tear down method
     def tearDown(self) -> None:
-        User.objects.all().delete()
         ImageCategory.objects.all().delete()
         ImageLocation.objects.all().delete()
         Image.objects.all().delete()
