@@ -11,7 +11,8 @@
         </div>
         {% for image in images %}
         <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
+            <div class="card"
+                 style="min-width: 15rem; max-width:20rem ;margin-top: 30px; margin-bottom: 30px; margin-right: 3rem; border:1px solid lightgrey">
                 <a href="/image/{{image.id}}"><img src="{{image.image.url}}" class="card-img-top" alt="..."></a>
             </div>
             {% endfor %}
