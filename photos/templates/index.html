@@ -8,27 +8,18 @@
             class="text-info">G</span>A<span class="text-info">LL</span>ER<span class="text-info">Y</span>
     </h3>
     <hr>
-    {% for image in images%}
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card" style="width: 20rem;">
-                <div class="card-body">
-                    <div class="card" style="width: 18rem;">
-                        <a href="/image/{{image.id}}"><img src="{{image.image.url}}" class="card-img-top" alt="..."></a>
-                    </div>
-                </div>
+
+
+    <div class="col-md-12">
+        <div class="card-group">
+            {%for image in images%}
+            <div class="card"
+                 style="min-width: 15rem; max-width:20rem ;margin-top: 30px; margin-bottom: 30px; margin-right: 3rem; border:1px solid lightgrey">
+                <a href="/image/{{image.id}}"><img src="{{ image.image.url }}" style="height: 14rem;" class="card-img-top" alt="Image"></a>
             </div>
+
+            {% endfor %}
         </div>
     </div>
-
-    {% empty %}
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="text-center">There are no posts at the moment</h1>
-        </div>
-    </div>
-
-    {% endfor %}
+    {% endblock %}
 </div>
-</div>
-{% endblock %}
