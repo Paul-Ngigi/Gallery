@@ -1,28 +1,13 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 
 # Create your models here.
-class User(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    email = models.EmailField()
-    phone_number = models.CharField(max_length=10, blank=True)
-
-    def __str__(self):
-        return {self.first_name}
-
-    def save_user(self):
-        self.save()
-
-    def delete_user(self):
-        self.delete()
-
-
 class ImageCategory(models.Model):
     name = models.CharField(max_length=30)
 
     def __str__(self):
-        return {self.name}
+        return f"{self.name}"
 
     def save_category(self):
         self.save()
@@ -35,7 +20,7 @@ class ImageLocation(models.Model):
     location_name = models.CharField(max_length=30)
 
     def __str__(self):
-        return {self.location_name}
+        return f"{self.location_name}"
 
     def save_location(self):
         self.save()
@@ -45,14 +30,15 @@ class ImageLocation(models.Model):
 
 
 class Image(models.Model):
-    image = models.ImageField()
-    image_name = models.CharField(max_length=10)
+    image = CloudinaryField('photo')
+    image_name = models.CharField(max_length=30)
     image_description = models.TextField()
+    posted_at = models.DateField(auto_now_add=True)
     image_location = models.ForeignKey(ImageLocation, on_delete=models.CASCADE, null=True)
     image_category = models.ForeignKey(ImageCategory, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return {self.image_name}
+        return f"{self.image_name}"
 
     def save_image(self):
         self.save()
@@ -70,8 +56,8 @@ class Image(models.Model):
         return image
 
     @classmethod
-    def search_image(cls, category):
-        image = Image.objects.filter(category=category)
+    def search_image(cls, search_term):
+        image = cls.objects.filter(image_category__image_category__icontains=search_term)
         return image
 
     @classmethod
