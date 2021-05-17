@@ -1,23 +1,29 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Image
+from .models import Image, ImageCategory
 from django.core.exceptions import ObjectDoesNotExist
 
 
 # Create your views here.
 def index(request):
     images = Image.objects.all()
-    return render(request, 'index.html', {"images": images})
+    categories = ImageCategory.objects.all()
+    return render(request, 'index.html', {"images": images, "categories": categories})
 
 
 def search_results(request):
-    if 'image' in request.GET and request.GET["image"]:
-        search_term = request.GET.get("image")
-        categories = Image.objects.get(name=search_term)
-        searched_images = Image.search_image(categories)
-        message = f"{search_term}"
+    if 'category' in request.GET and request.GET["category"]:
+        search_term = request.GET.get("category")
+        try:
+            categories = ImageCategory.objects.get(name=search_term)
+            searched_images = Image.search_image(categories)
 
-        return render(request, 'search.html', {'message': message, 'images': searched_images})
+            return render(request, 'search.html', {'images': searched_images})
+
+        except ObjectDoesNotExist:
+            message = "No images found"
+            categories = ImageCategory.objects.all()
+            return render(request, "search.html", {"message": message, "categories": categories})
 
     else:
         message = "You haven't searched for any term"
@@ -32,4 +38,11 @@ def view_image(request, image_id):
     except ObjectDoesNotExist:
         message = 'Sorry, we could not find what you are looking for'
         return render(request, 'image.html', {'message': message})
+
+
+def get_category(request, category_id):
+    category = ImageCategory.objects.get(id=category_id)
+    image = Image.search_image(category)
+
+    return render(request, 'search.html', {'images': image})
 
