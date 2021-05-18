@@ -18,7 +18,8 @@ import dj_database_url
 from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -174,6 +175,5 @@ cloudinary.config(
     api_secret="p9cYVU0XA3sCB_NZpoaYALiw7wI"
 )
 
-
-# Configure Django App for Heroku.
+# Activate Django-Heroku.
 django_heroku.settings(locals())
