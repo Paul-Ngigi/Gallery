@@ -31,6 +31,11 @@ class ImageLocation(models.Model):
 
     def delete_location(self):
         self.delete()
+        
+    @classmethod
+    def update_location(cls, id, name):
+        cls.objects.filter(id=id).update(name=name)
+
 
 
 class Image(models.Model):
@@ -63,3 +68,9 @@ class Image(models.Model):
     def search_image(cls, category):
         image = cls.objects.filter(image_category=category)
         return image
+    
+    @classmethod
+    def search_by_location(cls, location):
+        image = cls.objects.filter(image_location=location)
+        return image
+

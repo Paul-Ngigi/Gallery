@@ -24,9 +24,20 @@
                         {% endfor %}
                     </ul>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Location
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% for location in locations %}
+                        <li><a class="dropdown-item" href="location/{{location.id}}">{{location}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
             </ul>
             <form class="d-flex" action="{% url 'search_results' %}">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="category">
                 <button class="btn btn-info" type="submit">Search</button>
             </form>
         </div>
